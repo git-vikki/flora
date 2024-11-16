@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'main') {
+                        echo 'Building Main Branch'
+                        // Insert commands for building the main branch
+                    } else if (env.BRANCH_NAME == 'develop') {
+                        echo 'Building Develop Branch'
+                        // Insert commands for building the develop branch
+                    } else {
+                        echo "Building feature branch ${env.BRANCH_NAME}"
+                        // Insert commands for feature branches
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'main') {
+                        echo 'Running tests for main branch'
+                    } else {
+                        echo "Running tests for ${env.BRANCH_NAME}"
+                    }
+                    // Insert test commands
+                }
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo 'Deploying to production'
+                // Insert deployment commands for the main branch
+            }
+        }
+
+        stage('Deploy to Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                echo 'Deploying to Staging'
+                // Insert deployment commands for the develop branch
+            }
+        }
+    }
+}
